@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="STyMo: Fast and Controllable Few-Shot Motion Style Transfer - Jose Luis Ponton, Alexander Winkler, Ladislav Kavan, Yuting Ye, Petr Kadlecek">
+  <meta name="description" content="We present STyMo, a few-shot approach that learns motion style from only seconds of paired data and trains in one to two minutes, decomposing style into static and temporal components for controllable editing.">
+  <meta name="keywords" content="motion style transfer, motion synthesis, motion editing, character animation, deep learning, siggraph 2026, machine learning">
+  <meta name="author" content="Jose Luis Ponton, Alexander Winkler, Ladislav Kavan, Yuting Ye, Petr Kadlecek">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Reality Labs Research, Meta">
+  <meta property="og:title" content="STyMo: Fast and Controllable Few-Shot Motion Style Transfer">
+  <meta property="og:description" content="We present STyMo, a few-shot approach that learns motion style from only seconds of paired data and trains in one to two minutes, decomposing style into static and temporal components for controllable editing.">
+  <meta property="og:url" content="https://facebookresearch.github.io/STyMo/">
+  <meta property="og:image" content="static/images/Teaser.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="STyMo - Fast and Controllable Few-Shot Motion Style Transfer Preview">
+  <meta property="article:published_time" content="2026-06-10T00:00:00.000Z">
+  <meta property="article:author" content="Jose Luis Ponton">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Motion Style Transfer">
+  <meta property="article:tag" content="Character Animation">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="STyMo: Fast and Controllable Few-Shot Motion Style Transfer">
+  <meta name="twitter:description" content="We present STyMo, a few-shot approach that learns motion style from only seconds of paired data and trains in one to two minutes, decomposing style into static and temporal components for controllable editing.">
+  <meta name="twitter:image" content="static/images/Teaser.png">
+  <meta name="twitter:image:alt" content="STyMo - Research Preview">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="STyMo: Fast and Controllable Few-Shot Motion Style Transfer">
+  <meta name="citation_author" content="Ponton, Jose Luis">
+  <meta name="citation_author" content="Winkler, Alexander">
+  <meta name="citation_author" content="Kavan, Ladislav">
+  <meta name="citation_author" content="Ye, Yuting">
+  <meta name="citation_author" content="Kadlecek, Petr">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="SIGGRAPH 2026">
+  <meta name="citation_pdf_url" content="https://doi.org/10.1145/3811356">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>STyMo: Fast and Controllable Few-Shot Motion Style Transfer - Jose Luis Ponton, Alexander Winkler, Ladislav Kavan, Yuting Ye, Petr Kadlecek | SIGGRAPH 2026</title>
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "STyMo: Fast and Controllable Few-Shot Motion Style Transfer",
+    "description": "STyMo is a few-shot approach that learns motion style from only seconds of paired data and trains in one to two minutes, decomposing style into static and temporal components for controllable editing.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Jose Luis Ponton",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Reality Labs, Meta"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Alexander Winkler",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Reality Labs, Meta"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Ladislav Kavan",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Reality Labs, Meta"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Yuting Ye",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Reality Labs, Meta"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Petr Kadlecek",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Reality Labs, Meta"
+        }
+      }
+    ],
+    "datePublished": "2026-06-10",
+    "publisher": {
+      "@type": "Organization",
+      "name": "ACM Transactions on Graphics"
+    },
+    "url": "https://facebookresearch.github.io/STyMo/",
+    "image": "https://facebookresearch.github.io/STyMo/static/images/Teaser.png",
+    "keywords": ["motion style transfer", "character animation", "few-shot learning", "machine learning", "computer graphics"],
+    "abstract": "Supporting a wide variety of motion styles is critical for creating diverse virtual characters, but current methods either require large stylized datasets or pre-trained models that cannot generalize beyond their training distribution. We present STyMo, a few-shot approach that learns motion style from only seconds of paired data and trains in one to two minutes. Our key insight is to decompose style into two components: a static component capturing time-invariant posture, and a temporal component capturing frame-wise dynamics. This decomposition yields an interpretable system where posture intensity, temporal exaggeration, and per-body-region style can be adjusted at runtime. Furthermore, the reduction in required training data and computation time structurally permits an iterative authoring workflow. To ensure robustness on arbitrary inputs, we further introduce a stylizability gate that automatically prevents artifacts on out-of-distribution motions. We demonstrate results across diverse motion styles, from subtle emotional variations to exaggerated character archetypes, and release our processed paired dataset to facilitate future research.",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://facebookresearch.github.io/STyMo/"
+    }
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Reality Labs, Meta",
+    "url": "https://about.meta.com/reality-labs/",
+    "logo": "https://facebookresearch.github.io/STyMo/static/images/favicon.ico",
+    "sameAs": [
+      "https://github.com/facebookresearch"
+    ]
+  }
+  </script>
+</head>>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- More Works Dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works from Our Lab</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <!-- Related Research -->
+        <a href="https://upc-virvig.github.io/Environment-aware-Motion-Matching/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Environment-aware Motion Matching</h5>
+            <p>A real-time full-body character animation system that dynamically adapts body poses and trajectories to navigate complex, obstacle-ridden environments.</p>
+            <span class="work-venue">SIGGRAPH Asia 2025 / TOG</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://vcai.mpi-inf.mpg.de/projects/Step2Motion/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Step2Motion: Reconstructing Locomotion from Pressure-Sensing Insoles</h5>
+            <p>A deep learning-based approach to reconstruct full-body locomotion using multi-modal data from pressure-sensing insoles and IMUs.</p>
+            <span class="work-venue">Eurographics 2026</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://upc-virvig.github.io/MMVR/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices</h5>
+            <p>Motion Matching for Virtual Reality Avatars.</p>
+            <span class="work-venue">SCA 2022</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://upc-virvig.github.io/DragPoser/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>DragPoser: Motion Reconstruction from Variable Sparse Tracking Signals via Latent Space Optimization</h5>
+            <p>We introduce DragPoser, a novel deep-learning-based motion reconstruction system that accurately represents hard and dynamic constraints, attaining real-time high end-effectors position accuracy.</p>
+            <span class="work-venue">Eurographics 2025</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://upc-virvig.github.io/SparsePoser/" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>SparsePoser: Real-Time Full-Body Motion Reconstruction from Sparse Data</h5>
+            <p>SparsePoser is a novel deep learning-based approach for reconstructing full-body human motion in VR using a reduced set of six tracking devices.</p>
+            <span class="work-venue">SIGGRAPH Asia 2023 / TOG</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">STyMo: Fast and Controllable Few-Shot Motion Style Transfer</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://joseluisponton.com/" target="_blank">Jose Luis Ponton<sup>1,2</sup></a>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.alex-winkler.com/" target="_blank">Alexander Winkler<sup>1</sup></a>,
+              </span>
+              <span class="author-block">
+                <a href="https://users.cs.utah.edu/~ladislav/" target="_blank">Ladislav Kavan<sup>1</sup></a>,
+              </span>
+              <span class="author-block">
+                <a href="https://yutingye.info/" target="_blank">Yuting Ye<sup>1</sup></a>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/petr-kadle%C4%8Dek-6aa86a2b" target="_blank">Petr Kadlecek<sup>1</sup></a>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <sup>1</sup>Reality Labs, Meta &nbsp;&nbsp;&nbsp;
+                <sup>2</sup>Universitat Politècnica de Catalunya
+              </span>
+              <br>
+              <span class="publication-venue">SIGGRAPH 2026 | ACM Transactions on Graphics (TOG)</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Paper Link -->
+                <span class="link-block">
+                  <a href="https://doi.org/10.1145/3811356" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- Code Link -->
+                <span class="link-block">
+                  <a href="https://github.com/facebookresearch/STyMo" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- Data Link -->
+                <span class="link-block">
+                  <a href="https://github.com/facebookresearch/STyMo" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-database"></i>
+                    </span>
+                    <span>Data</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser image-->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="static/images/Teaser.png" alt="STyMo Teaser showing fast and controllable motion style transfer" loading="lazy" style="width: 100%; height: auto;" />
+        <h2 class="subtitle has-text-centered" style="margin-top: 1.5rem; text-align: justify !important; font-size: 1.1rem; line-height: 1.6;">
+          <strong>STyMo</strong> enables fast and controllable motion stylization from short examples. <strong>Left:</strong> The system learns (training in around 2 min) a target style from only a few seconds of paired motion data. <strong>Center:</strong> The user provides an arbitrary neutral input sequence of any length. <strong>Right:</strong> The resulting output faithfully preserves the original motion content while applying distinct stylistic characteristics, demonstrated here on a <em>zombie</em> dance (top) and an <em>angry</em> jump (bottom).
+        </h2>
+      </div>
+    </div>
+  </section>
+  <!-- End teaser image -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified" style="font-size: 1.1rem; line-height: 1.6;">
+            <p>
+              Supporting a wide variety of motion styles is critical for creating diverse virtual characters, but current methods either require large stylized datasets or pre-trained models that cannot generalize beyond their training distribution.
+            </p>
+            <p>
+              We present <strong>STyMo</strong>, a few-shot approach that learns motion style from only seconds of paired data and trains in one to two minutes.
+            </p>
+            <p>
+              Our key insight is to decompose style into two components: a <em>static</em> component capturing time-invariant posture, and a <em>temporal</em> component capturing frame-wise dynamics. This decomposition yields an interpretable system where posture intensity, temporal exaggeration, and per-body-region style can be adjusted at runtime. Furthermore, the reduction in required training data and computation time structurally permits an iterative authoring workflow.
+            </p>
+            <p>
+              To ensure robustness on arbitrary inputs, we further introduce a <em>stylizability gate</em> that automatically prevents artifacts on out-of-distribution motions.
+            </p>
+            <p>
+              We demonstrate results across diverse motion styles, from subtle emotional variations to exaggerated character archetypes, and release our processed paired dataset to facilitate future research.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <!-- Presentation video placeholder -->
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3">Video</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <div class="video-placeholder-container">
+              <div class="video-placeholder-card">
+                <div class="video-placeholder-icon">
+                  <i class="fab fa-youtube"></i>
+                </div>
+                <h3 class="title is-4">Presentation Video</h3>
+                <p class="subtitle is-6">Video presentation is coming soon. A placeholder is set up for when it is uploaded to YouTube.</p>
+                <div class="video-frame-stub">
+                  <div class="stub-play-btn"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End presentation video placeholder -->
+
+  <!-- Method Overview Section -->
+  <section class="section hero is-small is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <div class="content">
+            <h2 class="title is-3">Method Overview</h2>
+            <center style="margin: 2rem 0;">
+              <img src="static/images/MainDiagram.png" alt="STyMo Method Overview Diagram" class="center-image" loading="lazy" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%;" />
+            </center>
+            <div class="level-set has-text-justified" style="font-size: 1.05rem; line-height: 1.6;">
+              <p>
+                Given a source motion, we extract source kinematics <strong>x<sub>k</sub></strong> and average rotations. The <strong>static model</strong> (blue) classifies the average rotations to blend the <em>K</em> pre-computed style chunks (static deltas), capturing persistent postural offsets. The <strong>gating model</strong> predicts a frame-wise stylizability score (<strong>&gamma;</strong>) to suppress stylization when the character performs out-of-distribution motions, preventing visual artifacts. The <strong>temporal model</strong> (orange) is a Transformer encoder-decoder: the encoder processes previous predictions <strong>x<sub>p</sub></strong>, while the decoder takes <strong>x<sub>k</sub></strong> and cross-attends to the encoder. The static and temporal outputs are combined, modulated by the gating score, and applied to the source motion to produce the final stylized pose.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Video Results Overview Section -->
+<section class="section is-small is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Results & Evaluation</h2>
+    
+    <!-- Results Navigation Tabs -->
+    <div class="tabs is-centered is-toggle is-toggle-rounded is-medium" style="margin-bottom: 2rem;">
+      <ul>
+        <li class="tab-item is-active" onclick="switchTab(event, 'qualitative')">
+          <a>
+            <span class="icon is-small"><i class="fas fa-magic"></i></span>
+            <span>Qualitative</span>
+          </a>
+        </li>
+        <li class="tab-item" onclick="switchTab(event, 'comparisons')">
+          <a>
+            <span class="icon is-small"><i class="fas fa-balance-scale"></i></span>
+            <span>Comparisons</span>
+          </a>
+        </li>
+        <li class="tab-item" onclick="switchTab(event, 'control')">
+          <a>
+            <span class="icon is-small"><i class="fas fa-sliders-h"></i></span>
+            <span>Runtime Control</span>
+          </a>
+        </li>
+        <li class="tab-item" onclick="switchTab(event, 'generalization')">
+          <a>
+            <span class="icon is-small"><i class="fas fa-expand-arrows-alt"></i></span>
+            <span>Generalization & Ablations</span>
+          </a>
+        </li>
+        <li class="tab-item" onclick="switchTab(event, 'perceptual')">
+          <a>
+            <span class="icon is-small"><i class="fas fa-users"></i></span>
+            <span>User Study</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <div class="tab-contents">
+      
+      <!-- Tab 1: Qualitative Results -->
+      <div id="qualitative" class="tab-content-item is-active" style="display: block;">
+        <div class="content has-text-justified">
+          <p>
+            STyMo achieves highly robust results across diverse character styles and shapes. Below is the qualitative comparison showing the underlying skeleton deformation (neutral in green, stylized in blue) along with the corresponding skinned deformation on different character models (Neutral, Angry, Clown, Happy, Zombie).
+          </p>
+          <center style="margin: 2rem 0;">
+            <video poster="static/images/Meshes.jpg" controls muted loop preload="metadata" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width:100%; max-width:750px;">
+              <source src="static/videos/Meshes.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </center>
+        </div>
+      </div>
+
+      <!-- Tab 2: Comparisons -->
+      <div id="comparisons" class="tab-content-item" style="display: none;">
+        <div class="content">
+          <p class="has-text-justified">
+            We evaluate STyMo against five state-of-the-art baselines: VAE-GME (few-shot), GANimator & SinMDM (single-sequence generative models), MoST & MoMo (large-scale pre-trained models). STyMo trains in 1–2 minutes, provides explicit postural/dynamic control, and preserves motion content while faithfully applying the style.
+          </p>
+          
+          <h3 class="title is-5" style="margin-top: 1.5rem;">Quantitative Metrics</h3>
+          <div class="table-container" style="margin-top: 1rem; margin-bottom: 2rem;">
+            <table class="table is-striped is-hoverable is-fullwidth" style="border-radius: 8px; overflow: hidden; font-size: 0.95rem;">
+              <thead>
+                <tr style="background-color: #f3f4f6;">
+                  <th>Method</th>
+                  <th>Diversity &uparrow;</th>
+                  <th>Content Preservation &downarrow;</th>
+                  <th>Foot Sliding &downarrow;</th>
+                  <th>Jerk Difference (&rightarrow; 0)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>VAE-GME</td>
+                  <td>0.17 &pm; 0.11</td>
+                  <td>0.77 &pm; 0.26</td>
+                  <td>1.21 &pm; 0.49</td>
+                  <td>189 &pm; 179</td>
+                </tr>
+                <tr>
+                  <td>GANimator</td>
+                  <td>0.27 &pm; 0.09</td>
+                  <td>0.97 &pm; 0.30</td>
+                  <td>0.46 &pm; 0.23</td>
+                  <td><strong>3.2 &pm; 20.8</strong></td>
+                </tr>
+                <tr>
+                  <td>SinMDM</td>
+                  <td><strong>0.94 &pm; 0.04</strong></td>
+                  <td>1.55 &pm; 0.71</td>
+                  <td>1.76 &pm; 0.64</td>
+                  <td>595 &pm; 617</td>
+                </tr>
+                <tr>
+                  <td>MoST</td>
+                  <td>0.33 &pm; 0.18</td>
+                  <td><u>0.44 &pm; 0.13</u></td>
+                  <td>0.74 &pm; 0.33</td>
+                  <td>559 &pm; 144</td>
+                </tr>
+                <tr>
+                  <td>MoMo</td>
+                  <td>0.02 &pm; 0.01</td>
+                  <td>2.75 &pm; 1.22</td>
+                  <td><u>0.44 &pm; 0.23</u></td>
+                  <td>256 &pm; 151</td>
+                </tr>
+                <tr style="background-color: rgba(37, 99, 235, 0.08);">
+                  <td style="font-weight: bold;">Ours (STyMo)</td>
+                  <td><u>0.71 &pm; 0.10</u></td>
+                  <td><strong>0.37 &pm; 0.16</strong></td>
+                  <td><strong>0.05 &pm; 0.03</strong></td>
+                  <td><u>44.5 &pm; 25.3</u></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="title is-5">Qualitative Comparisons</h3>
+          <div class="columns is-multiline">
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">MoMo Comparison</h4>
+                <video poster="static/images/MoMo.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/MoMo.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified">MoMo fails on out-of-distribution motions (dance) or custom styles (angry), resulting in stiff poses and smoothed dynamics. STyMo correctly generalizes and stylizes.</p>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">GANimator and SinMDM Comparison</h4>
+                <video poster="static/images/GANimator_and_SinMDM.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/GANimator_and_SinMDM.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified">GANimator loses the style on unaligned inputs, while SinMDM ignores the input content entirely. STyMo successfully transfers style elements (e.g. punching) to dance/jump.</p>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">MoST Comparison</h4>
+                <video poster="static/images/MoST.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/MoST.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified">MoST struggles to transfer custom styles or generalise to different action timings. STyMo applies fine stylization details without large training sets.</p>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">VAE-GME Comparison</h4>
+                <video poster="static/images/VAEGME_1.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/VAEGME_1.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified">While both capture keyframed styles, VAE-GME fails entirely on complex, continuously varying motion-captured styles (bottom row), whereas STyMo recovers dynamic motion features.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Runtime Control -->
+      <div id="control" class="tab-content-item" style="display: none;">
+        <div class="content">
+          <p class="has-text-justified">
+            Because STyMo explicitly decomposes motion into static and temporal channels, users can control style variables independently. This yields intuitive controls for posture sl slouching, velocity dynamics, per-body-region weights, and a mechanism to prime/induce specific actions stochastically. Additionally, the fast training loop (under 2 minutes) allows interactive edit-by-example refining.
+          </p>
+          <div class="columns is-multiline" style="margin-top: 1.5rem;">
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">Runtime Style Tuning</h4>
+                <video poster="static/images/Controllability.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/Controllability.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified"><strong>Left:</strong> Increasing the temporal scale exaggerates dynamic acceleration. <strong>Center:</strong> Increasing static scale emphasizes postural biases. <strong>Right:</strong> prime-inducing a specific punching sequence at target timestamps.</p>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">Static Posture Refinement</h4>
+                <video poster="static/images/Static.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/Static.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified">Refinement loop. Users can add a single target static pose keyframe (orange/purple) to adjust character tilt. Re-training the static model reflects this update immediately.</p>
+              </div>
+            </div>
+            <div class="column is-12">
+              <center>
+                <div class="video-box" style="max-width: 600px; margin: 0 auto 1.5rem auto;">
+                  <h4 class="title is-6" style="margin-bottom: 0.5rem;">Iterative Training Generalization</h4>
+                  <video poster="static/images/Run.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                    <source src="static/videos/Run.mp4" type="video/mp4">
+                  </video>
+                  <p class="is-size-7 has-text-justified"><strong>Right:</strong> Training data with a clown walk (A) and run (B). <strong>Left:</strong> Training only on walking generalizes poorly to running speeds (cyan). Adding the running sequence allows for successful running stylization (purple).</p>
+                </div>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Generalization & Ablations -->
+      <div id="generalization" class="tab-content-item" style="display: none;">
+        <div class="content">
+          <p class="has-text-justified">
+            We evaluate cross-dataset generalization (applying MOCHA trained styles to distinct in-house animation cycles) and conduct ablation studies to evaluate our static-temporal encoder/gating architectures.
+          </p>
+          <div class="columns is-multiline" style="margin-top: 1.5rem;">
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">Cross-Dataset & Short Cycles</h4>
+                <video poster="static/images/Cross.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/Cross.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified">STyMo generalizes to entirely different content characters and datasets, and supports extremely short loopable animation clips (bottom row, 18-frame cycle).</p>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="video-box" style="margin-bottom: 1.5rem;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">Ablation Study</h4>
+                <video poster="static/images/Ablation.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
+                  <source src="static/videos/Ablation.mp4" type="video/mp4">
+                </video>
+                <p class="is-size-7 has-text-justified"><strong>Left:</strong> Removing the encoder loses acyclic gestures. <strong>Center:</strong> Removing the temporal model loses dynamic timing. <strong>Right:</strong> Removing the gating model results in severe outliers/collapses on crawls.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: User Study -->
+      <div id="perceptual" class="tab-content-item" style="display: none;">
+        <div class="content">
+          <p class="has-text-justified">
+            To complement quantitative metrics, we conducted a perceptual user study with 32 participants using a Two-Alternative Forced Choice (2AFC) visual comparison. STyMo was preferred significantly above the 50% chance level against all baselines: SinMDM (97.1%), VAE-GME (94.5%), MoMo (93.4%), MoST (88.3%), and GANimator (78.5%).
+          </p>
+          <div class="columns is-vcentered" style="margin-top: 2rem; margin-bottom: 1rem;">
+            <div class="column is-6">
+              <center>
+                <img src="static/images/stymo_preference_paper.png" alt="STyMo User Study Preference Rates" style="border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); width: 100%; max-width: 400px;" />
+                <p class="is-size-7" style="margin-top: 0.5rem;">User Preference Rates (significance markers show $p &lt; 0.001$ after Bonferroni correction)</p>
+              </center>
+            </div>
+            <div class="column is-6">
+              <center>
+                <img src="static/images/user_study_ss.jpg" alt="User Study Interface Screenshot" style="border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); width: 100%; max-width: 450px;" />
+                <p class="is-size-7" style="margin-top: 0.5rem;">2AFC Visual Evaluation Interface</p>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- End video results overview section -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@article{2026:ponton:stymo,
+	author = {Ponton, Jose Luis and Winkler, Alexander and Kavan, Ladislav and Ye, Yuting and Kadlecek, Petr},
+	title = {STyMo: Fast and Controllable Few-Shot Motion Style Transfer},
+	year = {2026},
+	publisher = {Association for Computing Machinery},
+	booktitle = {SIGGRAPH 2026},
+	address = {New York, NY, USA},
+	issn = {0730-0301},
+	doi = {10.1145/3811356},
+	journal = {ACM Trans. Graph.},
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
