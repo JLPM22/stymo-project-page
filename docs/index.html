@@ -446,12 +446,9 @@
           <p>
             STyMo achieves highly robust results across diverse character styles and shapes. Below is the qualitative comparison showing the underlying skeleton deformation (neutral in green, stylized in blue) along with the corresponding skinned deformation on different character models (Neutral, Angry, Clown, Happy, Zombie).
           </p>
-          <center style="margin: 2rem 0;">
-            <video poster="static/images/Meshes.jpg" controls muted loop preload="metadata" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width:100%; max-width:750px;">
-              <source src="static/videos/Meshes.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </center>
+          <div class="single-media-container" style="max-width: 500px;">
+            <img src="static/images/Meshes.jpg" alt="Qualitative comparison showing neutral and stylized character meshes" loading="lazy" />
+          </div>
         </div>
       </div>
 
@@ -526,36 +523,36 @@
             <div class="column is-6">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">MoMo Comparison</h4>
-                <video poster="static/images/MoMo.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/MoMo.mp4" type="video/mp4">
-                </video>
+                <div class="media-wrapper">
+                  <img src="static/images/MoMo.jpg" alt="MoMo Comparison" loading="lazy" />
+                </div>
                 <p class="is-size-7 has-text-justified">MoMo fails on out-of-distribution motions (dance) or custom styles (angry), resulting in stiff poses and smoothed dynamics. STyMo correctly generalizes and stylizes.</p>
               </div>
             </div>
             <div class="column is-6">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">GANimator and SinMDM Comparison</h4>
-                <video poster="static/images/GANimator_and_SinMDM.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/GANimator_and_SinMDM.mp4" type="video/mp4">
-                </video>
+                <div class="media-wrapper">
+                  <img src="static/images/GANimator_and_SinMDM.jpg" alt="GANimator and SinMDM Comparison" loading="lazy" />
+                </div>
                 <p class="is-size-7 has-text-justified">GANimator loses the style on unaligned inputs, while SinMDM ignores the input content entirely. STyMo successfully transfers style elements (e.g. punching) to dance/jump.</p>
               </div>
             </div>
             <div class="column is-6">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">MoST Comparison</h4>
-                <video poster="static/images/MoST.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/MoST.mp4" type="video/mp4">
-                </video>
+                <div class="media-wrapper">
+                  <img src="static/images/MoST.jpg" alt="MoST Comparison" loading="lazy" />
+                </div>
                 <p class="is-size-7 has-text-justified">MoST struggles to transfer custom styles or generalise to different action timings. STyMo applies fine stylization details without large training sets.</p>
               </div>
             </div>
             <div class="column is-6">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">VAE-GME Comparison</h4>
-                <video poster="static/images/VAEGME_1.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/VAEGME_1.mp4" type="video/mp4">
-                </video>
+                <div class="media-wrapper">
+                  <img src="static/images/VAEGME_1.jpg" alt="VAE-GME Comparison" loading="lazy" />
+                </div>
                 <p class="is-size-7 has-text-justified">While both capture keyframed styles, VAE-GME fails entirely on complex, continuously varying motion-captured styles (bottom row), whereas STyMo recovers dynamic motion features.</p>
               </div>
             </div>
@@ -573,31 +570,29 @@
             <div class="column is-6">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">Runtime Style Tuning</h4>
-                <video poster="static/images/Controllability.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/Controllability.mp4" type="video/mp4">
-                </video>
+                <div class="media-wrapper">
+                  <img src="static/images/Controllability.jpg" alt="Runtime Style Tuning" loading="lazy" />
+                </div>
                 <p class="is-size-7 has-text-justified"><strong>Left:</strong> Increasing the temporal scale exaggerates dynamic acceleration. <strong>Center:</strong> Increasing static scale emphasizes postural biases. <strong>Right:</strong> prime-inducing a specific punching sequence at target timestamps.</p>
               </div>
             </div>
             <div class="column is-6">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">Static Posture Refinement</h4>
-                <video poster="static/images/Static.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/Static.mp4" type="video/mp4">
-                </video>
+                <div class="media-wrapper">
+                  <img src="static/images/Static.jpg" alt="Static Posture Refinement" loading="lazy" />
+                </div>
                 <p class="is-size-7 has-text-justified">Refinement loop. Users can add a single target static pose keyframe (orange/purple) to adjust character tilt. Re-training the static model reflects this update immediately.</p>
               </div>
             </div>
             <div class="column is-12">
-              <center>
-                <div class="video-box" style="max-width: 600px; margin: 0 auto 1.5rem auto;">
-                  <h4 class="title is-6" style="margin-bottom: 0.5rem;">Iterative Training Generalization</h4>
-                  <video poster="static/images/Run.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                    <source src="static/videos/Run.mp4" type="video/mp4">
-                  </video>
-                  <p class="is-size-7 has-text-justified"><strong>Right:</strong> Training data with a clown walk (A) and run (B). <strong>Left:</strong> Training only on walking generalizes poorly to running speeds (cyan). Adding the running sequence allows for successful running stylization (purple).</p>
+              <div class="video-box" style="max-width: 650px; margin: 0 auto 1.5rem auto;">
+                <h4 class="title is-6" style="margin-bottom: 0.5rem;">Iterative Training Generalization</h4>
+                <div class="media-wrapper">
+                  <img src="static/images/Run.jpg" alt="Iterative Training Generalization" loading="lazy" />
                 </div>
-              </center>
+                <p class="is-size-7 has-text-justified"><strong>Right:</strong> Training data with a clown walk (A) and run (B). <strong>Left:</strong> Training only on walking generalizes poorly to running speeds (cyan). Adding the running sequence allows for successful running stylization (purple).</p>
+              </div>
             </div>
           </div>
         </div>
@@ -610,21 +605,21 @@
             We evaluate cross-dataset generalization (applying MOCHA trained styles to distinct in-house animation cycles) and conduct ablation studies to evaluate our static-temporal encoder/gating architectures.
           </p>
           <div class="columns is-multiline" style="margin-top: 1.5rem;">
-            <div class="column is-6">
-              <div class="video-box" style="margin-bottom: 1.5rem;">
+            <div class="column is-12">
+              <div class="video-box" style="max-width: 650px; margin: 0 auto 2rem auto;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">Cross-Dataset & Short Cycles</h4>
-                <video poster="static/images/Cross.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/Cross.mp4" type="video/mp4">
-                </video>
+                <div class="single-media-container" style="margin: 1rem 0; max-height: 450px; overflow: hidden; display: flex; justify-content: center; background: var(--background-accent); border-radius: 6px;">
+                  <img src="static/images/Cross.jpg" alt="Cross-Dataset & Short Cycles" loading="lazy" style="max-height: 430px; width: auto; object-fit: contain;" />
+                </div>
                 <p class="is-size-7 has-text-justified">STyMo generalizes to entirely different content characters and datasets, and supports extremely short loopable animation clips (bottom row, 18-frame cycle).</p>
               </div>
             </div>
-            <div class="column is-6">
+            <div class="column is-12">
               <div class="video-box" style="margin-bottom: 1.5rem;">
                 <h4 class="title is-6" style="margin-bottom: 0.5rem;">Ablation Study</h4>
-                <video poster="static/images/Ablation.jpg" controls muted loop preload="metadata" style="width: 100%; border-radius: 6px;">
-                  <source src="static/videos/Ablation.mp4" type="video/mp4">
-                </video>
+                <div class="single-media-container" style="margin: 1rem 0; background: var(--background-accent); border-radius: 6px; display: flex; justify-content: center;">
+                  <img src="static/images/Ablation.jpg" alt="Ablation Study" loading="lazy" style="width: 100%; height: auto; object-fit: contain;" />
+                </div>
                 <p class="is-size-7 has-text-justified"><strong>Left:</strong> Removing the encoder loses acyclic gestures. <strong>Center:</strong> Removing the temporal model loses dynamic timing. <strong>Right:</strong> Removing the gating model results in severe outliers/collapses on crawls.</p>
               </div>
             </div>
